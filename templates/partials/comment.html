@@ -1,0 +1,34 @@
+{% load subreddit_extras %}
+
+
+{% for cmt in comments %}
+  <div class="card {{ cmt.shadow }} {{ cmt.color }} mt-3">
+    <div class="card-body text-wrap">
+
+      <p>
+        <a class="btn btn-dark rounded-circle {{ cmt.color }}" href="#comment-{{ cmt.id }}" data-toggle="collapse" aria-expanded="true">
+          <i class="fa fa-minus-circle" aria-hidden="true"></i>
+        </a>
+        <a class="{{ cmt.op_color }} btn rounded" href="#">
+          <b>{{ cmt.author_name }}</b>
+        </a>
+        {{ cmt.author_info }}
+      </p>
+
+      <div id="comment-{{ cmt.id }}" class="collapse gray-text">
+        Content hidden
+      </div>
+
+      <div id="comment-{{ cmt.id }}" class="collapse show">
+        {% autoescape off %}
+          {{ cmt.body|safe }}
+        {% endautoescape %}
+
+        {% if cmt.replies %}
+          {% include "partials/comment.html" with comments=cmt.replies %}
+        {% endif %}
+      </div>
+
+    </div>
+  </div>
+{% endfor %}

@@ -1,0 +1,31 @@
+{% load subreddit_extras %}
+
+<div class="card shadow solarized-dark mb-3">
+  <div class="card-body">
+    <h4 class="card-title">Popular Communities</h4>
+    {% top_five popular_subs as five_subs %}
+    {% for sub in five_subs %}
+    <div class="card shadow solarized-dark-2 mt-3">
+      <div class="card-body">
+      <div class="row">
+        <div class="col-3">
+          {% if sub.icon_img %}
+            <img src="{{ sub.icon_img }}" alt="" class="rounded-circle img-fluid p-2 orange">
+          {% else %}
+            <img src="/static/img/default_sub_icon.png" alt="" class="rounded-circle img-fluid p-2 orange">
+          {% endif %}
+        </div>
+        <div class="col">
+          <p class="card-text font-weight-bold">
+            <a href="{% url 'subreddit:subreddit' sub.display_name %}">
+              r/{{ sub.display_name }}
+            </a>
+          </p>
+          <p class="card-text">{% num_with_comma sub.subscribers %} Subscribers</p>
+        </div>
+      </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>

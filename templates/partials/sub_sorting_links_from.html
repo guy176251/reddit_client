@@ -1,0 +1,12 @@
+{% load subreddit_extras %}
+
+<div class="dropdown">
+  <button class="btn magenta dropdown-toggle" type="button" id="subsorting-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    Links from: {{ links_from_label }}
+  </button>
+  <div class="dropdown-menu" aria-labelledby="subsorting-dropdown">
+    {% for si, label in sorting_intervals.items %}
+    <a class="dropdown-item" href="{% url 'subreddit:subreddit' subreddit.display_name sorted_by %}?t={{ si }}">{{ label }}</a>
+    {% endfor %}
+  </div>
+</div>

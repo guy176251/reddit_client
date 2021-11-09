@@ -1,0 +1,20 @@
+{% load subreddit_extras %}
+
+<div class="row justify-content-center loading d-none">
+  <div class="spinner-border text-light" role="status">
+    <span class="sr-only">Loading...</span>
+  </div>
+</div>
+
+<script>
+  var infinite = new Waypoint.Infinite({
+    element: $('.infinite-container')[0],
+    onBeforePageLoad: function () {
+      $('.loading').toggleClass('d-none');
+      $('.temp-link').addClass('d-none');
+    },
+    onAfterPageLoad: function ($items) {
+      $('.loading').toggleClass('d-none');
+    }
+  });
+</script>

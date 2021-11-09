@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% load subreddit_extras %}
+
+
+{% block title %}Search{% endblock %}
+
+
+{% block navbar %}  
+  {% include "partials/sub_dropdown.html" with dropdown_label="Search" %}
+{% endblock %}
+
+
+{% block content %}
+    <div class="card shadow solarized-dark mb-3">
+      <div class="card-body">
+        <h4 class="card-title text-center">
+          {% if search_results %}
+            {{ search_results_num }} subreddits matching "{{ search_name }}"
+          {% else %}
+            No search results for "{{ search_name }}"
+          {% endif %}
+        </h4>
+      </div>
+    </div>
+  {% if search_results %}
+    {% for sub in search_results %}
+      <div class="card shadow solarized-dark mb-3">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-2">
+              {% if sub.icon_img %}
+                <img src="{{ sub.icon_img }}" alt="" class="rounded-circle img-fluid p-2 orange">
+              {% else %}
+                <img src="/static/img/default_sub_icon.png" alt="" class="rounded-circle img-fluid p-2 orange">
+              {% endif %}
+            </div>
+            <div class="col">
+              <h4 class="card-title">
+                <a href="{% url 'subreddit:subreddit' sub.display_name %}">
+                  r/{{ sub.display_name }}
+                </a>
+              </h4>
+              <p class="card-text">{% num_with_comma sub.subscribers %} Subscribers</p>
+              <p class="card-text gray-text">{{ sub.public_description }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  {% endif %}
+{% endblock %}
+
+
+{% block sidebar %}
+  {% include "partials/search_bar.html" %}
+  {% include "partials/sub_sidebar.html" %}
+{% endblock %}

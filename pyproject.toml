@@ -1,0 +1,20 @@
+[tool.poetry]
+name = "reddit"
+version = "0.1.0"
+description = ""
+authors = ["long <longnguyen176251@gmail.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.8"
+Django = "^3.2.5"
+django-crispy-forms = "^1.12.0"
+Markdown = "^3.3.4"
+requests = "^2.26.0"
+praw = "^7.4.0"
+
+[tool.poetry.dev-dependencies]
+neovim = "^0.3.1"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"

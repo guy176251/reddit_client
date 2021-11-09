@@ -1,0 +1,94 @@
+/*
+https://ethanschoonover.com/solarized/
+*/
+
+:root {
+  --base03:  #002b36;
+  --base02:  #073642;
+  --base01:  #586e75;
+  --base00:  #657b83;
+  --base0:   #839496;
+  --base1:   #93a1a1;
+  --base2:   #eee8d5;
+  --base3:   #fdf6e3;
+  --yellow:  #b58900;
+  --orange:  #cb4b16;
+  --red:     #dc322f;
+  --magenta: #d33682;
+  --violet:  #6c71c4;
+  --blue:    #268bd2;
+  --cyan:    #2aa198;
+  --green:   #859900;
+}
+
+.img-max {
+  max-width:  100px;
+  max-height: 100px;
+}
+
+body {
+  color: var(--base2);
+  background-color: var(--base03);
+}
+
+a {
+  color: var(--blue);
+}
+
+.quote {
+  color: var(--base0);
+  border-left: 4px solid var(--red);
+  padding-left: 10px;
+}
+
+.upvote-clicked {
+  color: var(--orange);
+}
+
+.downvote-clicked {
+  color: var(--blue);
+}
+
+.magenta{
+  color: var(--base2);
+  background-color: var(--magenta);
+}
+
+.orange{
+  color: var(--base2);
+  background-color: var(--orange);
+}
+
+.green{
+  color: var(--base2);
+  background-color: var(--green);
+}
+
+.blue {
+  color: var(--base2);
+  background-color: var(--blue);
+}
+
+.gray-text {
+  color: var(--base0);
+}
+
+.white-bg {
+  background-color: var(--base2);
+}
+
+.solarized-dark {
+  color: var(--base2);
+  background-color: var(--base02);
+}
+
+.solarized-dark-2 {
+  color: var(--base2);
+  background-color: var(--base03);
+}
+
+.comment-box {
+  height: calc(100vh - 56px);
+  overflow-y: scroll;
+  top: 56px;
+}

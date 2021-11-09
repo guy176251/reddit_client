@@ -1,0 +1,12 @@
+{% load subreddit_extras %}
+
+<div class="dropdown">
+  <button class="btn green dropdown-toggle" type="button" id="sorting-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    Sorting by: {{ sorted_by }}
+  </button>
+  <div class="dropdown-menu" aria-labelledby="sorting-dropdown">
+    {% for st in sorting_types %}
+    <a class="dropdown-item" href="{% url 'subreddit:subreddit' subreddit.display_name st %}">{{ st }}</a>
+    {% endfor %}
+  </div>
+</div>

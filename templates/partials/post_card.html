@@ -1,0 +1,113 @@
+{% load subreddit_extras %}
+
+<div class="card shadow mb-3 solarized-dark">
+  {% if post.embed %}
+    <div class="embed-responsive embed-responsive-16by9 collapse media-embed" id="media-{{ post.id }}">
+      {{ post.embed|safe }}
+    </div>
+  {% elif post.vid %}
+    <div class="card-image collapse media-embed" id="media-{{ post.id }}">
+      <div class="embed-responsive embed-responsive-16by9">
+        <video preload="auto" controls="true" class="embed-responsive-item">
+          <source src="{{ post.vid }}" type="video/mp4" />
+        </video>
+      </div>
+    </div>
+  {% elif post.img %}
+    <div class="card-image solarized-dark collapse {{ post.show_media }} media-embed" id="media-{{ post.id }}" data-toggle="modal" data-target="#img-{{ post.id }}">
+      <img class="card-img-top img-fluid" src="{{ post.img }}" alt="Image not found">
+    </div>
+  {% endif %}
+
+  <div class="card-body">
+    <div class="row">
+      <div class="col">
+        <h3 class="card-title">
+          <a class="solarized-dark" href="{{ post.url }}">{{ post.title }}</a>
+        </h3>
+        <p class="card-text">
+          {% if post.embed or post.vid or post.img or post.is_self and post.selftext %}
+            <a class="blue btn btn-dark rounded-circle" data-toggle="collapse" href="#media-{{ post.id }}" aria-expanded="true">
+              {% if post.is_self %}
+                <i class="fas fa-file-alt"></i>
+              {% else %}
+                <i class="fas fa-play"></i>
+              {% endif %}
+            </a>
+            &nbsp;
+          {% endif %}
+          <small>
+            <a class="solarized-dark" href="{% url 'subreddit:subreddit' post.subreddit.display_name  %}">
+              /r/{{ post.subreddit.display_name }}
+            </a>
+            &nbsp;
+            •
+            &nbsp;
+            {{ post.age }}
+            &nbsp;
+            •
+            &nbsp;
+            {{ post.author_name }}
+            &nbsp;
+            •
+            &nbsp;
+            {{ post.content_origin }}
+          </small>
+        </p>
+
+        {% if post.is_self and post.selftext %}
+          <div class="collapse {{ post.show_selftext }} media-embed" id="media-{{ post.id }}">
+            <p class="card-text">
+              {% autoescape off %}
+              {{ post.selftext_html|safe }}
+              {% endautoescape %}
+            </p>
+          </div>
+        {% endif %}
+      </div>
+      {% if not post.embed and "http" in post.thumbnail %}
+        <div class="col-3 text-right">
+          <img src="{{ post.thumbnail }}" alt="">
+        </div>
+      {% endif %}
+    </div>
+  </div>
+  <div class="card-footer">
+    <i class="fas fa-arrow-up"></i>
+    &nbsp;
+    <small>{{ post.score }} pts</small>  
+    &nbsp;
+    &nbsp;
+    <a class="solarized-dark" href="{% url 'subreddit:post' post.subreddit.display_name post.id %}">
+      <i class="fas fa-comments"></i>
+      &nbsp;
+      <small>{{ post.num_comments }} comments</small>
+    </a>
+  </div>
+
+      <!-- <div class="card-footer">
+        <i class="fas fa-arrow-up upvote"></i>
+        &nbsp;
+        &nbsp;
+        <i class="fas fa-arrow-down downvote"></i>
+        &nbsp;
+        &nbsp;
+        <i class="fas fa-ellipsis-v"></i>
+        &nbsp;
+        &nbsp;
+        <a class="btn toggle-container solarized-dark-2" href="#">Toggle Container</a>
+      </div> -->
+
+</div>
+
+{% if post.img %}
+<div class="modal" id="img-{{ post.id }}">
+  <div class="modal-dialog modal-dialog-centered modal-xl" data-toggle="modal" data-target="#img-{{ post.id }}">
+    <div class="modal-content p-0">
+        <div class="text-center">
+          <img class="w-100 rounded" src="{{ post.img }}" alt="">
+        </div>
+    </div>
+  </div>
+</div>
+{% endif %}

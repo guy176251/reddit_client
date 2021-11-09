@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}About the Author{% endblock %}
+
+{% block navbar %}
+  {% include "partials/sub_dropdown.html" with dropdown_label="About the Author" %}
+{% endblock %}
+
+{% block content %}
+<div class="text-center">
+  <h2>About the Author</h2>
+  <img class="img-fluid rounded-circle w-75 my-3" src="{% static 'imgs/author.jpg' %}" alt="">
+  <p>Long Nguyen is a Web Programmer whose areas of expertise include Python and Linux. This website was built using Django, a Python web framework. Please send inquiries to longnguyen176251@gmail.com.</p>
+</div>
+{% endblock %}
+
+{% block sidebar %}
+  {% include "partials/sub_sidebar.html" %}
+{% endblock %}

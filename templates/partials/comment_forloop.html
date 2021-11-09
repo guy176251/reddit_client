@@ -1,0 +1,63 @@
+{% load subreddit_extras %}
+
+{% instantiate post.comments.list as comments %}
+{% for cmt in comments %}
+
+  {% if color_switch %}
+    {% instantiate "solarized-dark" as color_mode %}
+  {% else %}
+    {% instantiate "solarized-dark-2" as color_mode %}
+  {% endif %}
+
+  {% if top_level_comment %}
+    {% instantiate "shadow" as shadow %}
+  {% else %}
+    {% instantiate "" as shadow %}
+  {% endif %}
+
+  {% instantiate cmt.author as cmt_author %}
+
+  <div class="card {{ shadow }} {{ color_mode }} mt-3">
+    <div class="card-body text-wrap">
+
+      <p>
+        <a class="btn btn-dark rounded-circle {{ color_mode }}" href="#comment-{{ cmt.id }}" data-toggle="collapse" aria-expanded="true">
+          <i class="fa fa-minus-circle" aria-hidden="true"></i>
+        </a>
+        {% if cmt_author.name == post_author.name and post_author.name %}
+          <a class="orange btn rounded" href="#">
+            <b>{% parse_username cmt_author.name %}</b>
+          </a>
+        {% else %}
+          <b>{% parse_username cmt_author.name %}</b>
+        {% endif %}
+
+        {% if cmt_author.name %}
+          &nbsp;
+          •
+          &nbsp;
+          {% parse_score cmt %}
+          &nbsp;
+          •
+          &nbsp;
+          {% post_age cmt %}
+          {{ cmt.edited|yesno:"(edited)," }}
+        {% endif %}
+      </p>
+
+      <div id="comment-{{ cmt.id }}" class="collapse gray-text">
+        Content hidden
+      </div>
+
+      <div id="comment-{{ cmt.id }}" class="collapse show">
+        {% autoescape off %}
+          {% parse_body cmt.body_html as body %} 
+          {{ body|safe }}
+        {% endautoescape %}
+
+        <!-- change_bool exists so that I can achieve the alternating colors for comment depths -->
+      </div>
+
+    </div>
+  </div>
+{% endfor %}

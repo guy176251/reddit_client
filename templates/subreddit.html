@@ -1,0 +1,121 @@
+<!-- • &nbsp; -->
+
+{% extends 'base.html' %}
+{% load subreddit_extras %}
+
+
+{% block title %}{{ subreddit.display_name }}{% endblock %}
+
+
+{% block navbar %}
+  {% include "partials/sub_dropdown.html" with dropdown_label="/r/"|add:subreddit.display_name %}
+  {% include "partials/sub_sorting.html" %}
+  {% if sorted_by == 'top' or sorted_by == 'controversial' %}
+    {% include "partials/sub_sorting_links_from.html" %}
+  {% endif %}
+  <button class="btn btn-primary blue" data-toggle="collapse" data-target=".media-embed" aria-expanded="false">Toggle all media</button>
+{% endblock %}
+
+
+{% block content %}
+
+  <div class="card solarized-dark shadow mb-3">
+    <div class="card-body">
+      <div class="container">
+        <div class="row">
+          <div class="col-2 mr-3">
+            <img src="{{ subreddit.icon_img }}" alt="" class="rounded-circle img-fluid p-2 orange">
+          </div>
+          <div class="col">
+            <h1 class="card-title">{{ subreddit.title }}</h1>  
+            <p class="card-text gray-text">r/{{ subreddit.display_name }}</p>
+          </div>
+          <div class="col">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="post-container">
+    {% if submissions %}
+      {% if page_num > 1 %}
+        <div class="post">
+          <p class="font-weight-bold text-center">
+            Page {{ page_num }}
+          </p>
+        </div>
+      {% endif %}
+      {% for post in submissions %}
+        <div class="post">
+          {% get_false as is_post %}
+          {% include "partials/post_card.html" %}
+        </div>
+      {% endfor %}
+    {% else %}
+      <div class="post">
+        <div class="card shadow solarized-dark">
+          <div class="card-body">
+            <h4 class="card-title text-center">
+              There seems to be nothing here...           
+            </h4>
+          </div>
+        </div>
+      </div>
+    {% endif %}
+  </div>
+
+  {% if submissions %}
+    <a class="post-more-link" href="{% url 'subreddit:subreddit' subreddit.display_name sorted_by %}?next_page=1&t={{ links_from }}"></a>
+    <div class="loading">
+      <div class="infinite-scroll-request">
+        <div class="row justify-content-center">
+          <div class="spinner-border" role="status">
+            <span class="sr-only"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/infinite-scroll@3/dist/infinite-scroll.pkgd.min.js"></script>
+    <script>
+      $('.post-container').infiniteScroll({
+        // options
+        path: '.post-more-link',
+        append: '.post',
+        status:'.loading',
+      });
+    </script>
+  {% endif %}
+{% endblock %}
+
+
+{% block sidebar %}
+  {% if subreddit.subscribers and subreddit.accounts_active and subreddit.created_utc %}
+    <div class="card shadow solarized-dark mb-3">
+      <div class="card-body">
+        <div class="row">
+          <div class="col p-0">
+            <p class="font-weight-bold text-right card-text">Members:</p>
+            <p class="font-weight-bold text-right card-text">Online:</p>
+            <p class="font-weight-bold text-right card-text">Created on:</p>
+          </div>
+          <div class="col pl-2">
+            <p class="font-weight-bold card-text">{{ subreddit.subscribers }}</p>
+            <p class="font-weight-bold card-text">{{ subreddit.accounts_active }}</p>
+            <p class="font-weight-bold card-text">{{ subreddit.created_utc }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  {% endif %}
+  {% include "partials/search_bar.html" %}
+  {% if subreddit.description_html %}
+    <div class="card shadow solarized-dark mb-3">
+      <div class="card-body">
+        {{ subreddit.description_html|safe }}
+      </div>
+    </div>
+  {% endif %}
+  {% include "partials/sub_sidebar.html" %}
+{% endblock %}

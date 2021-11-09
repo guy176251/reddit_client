@@ -1,0 +1,12 @@
+{% load subreddit_extras %}
+
+{% load crispy_forms_tags %}
+
+<div class="card shadow solarized-dark mb-3">
+  <div class="card-body">
+    <form action="{% url 'subreddit:search' %}" method="post">
+      {% csrf_token %}
+      {{ search_field|crispy }}
+    </form>
+  </div>
+</div>

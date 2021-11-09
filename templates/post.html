@@ -1,0 +1,37 @@
+<!-- • &nbsp; -->
+
+{% extends 'base.html' %}
+{% load subreddit_extras %}
+
+
+{% block title %}{{ subreddit.display_name }}{% endblock %}
+
+
+{% block navbar %}
+  {% include "partials/sub_dropdown.html" with dropdown_label="/r/"|add:subreddit.display_name %}
+{% endblock %}
+
+
+{% block content %}
+  {% include "partials/post_card.html" %}
+  {% include "partials/comment.html" %}
+{% endblock %}
+
+
+{% block sidebar %}
+  <div class="card shadow solarized-dark mb-3">
+    <div class="card-body">
+      <p class="card-text font-weight-bold">Submitted on {{ post.date }}</p>
+      <h4 class="card-title">{{ post.fullscore }} points ({{ post.percent_upvoted }}% upvoted)</h4> 
+    </div>
+  </div>
+  {% include "partials/search_bar.html" %}
+  {% if subreddit.description_html %}
+    <div class="card shadow solarized-dark mb-3">
+      <div class="card-body">
+        {{ subreddit.description_html|safe }}
+      </div>
+    </div>
+  {% endif %}
+  {% include "partials/sub_sidebar.html" %}
+{% endblock %}
